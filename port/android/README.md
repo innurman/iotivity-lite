@@ -1,3 +1,104 @@
+![poliot](./poliot.png)
+
+POLIOT Inc.
+-------------------------------------------------
+
+Get Started
+=================================================
+To use this code you will need the following:
+  - git version control system
+  - IoTivity-lite
+  - SWIG
+  - python
+  - Java Development kit.
+  - Android NDK
+  - Android SDK for command line build
+  - Android Studio for GUI build
+
+The following contains instructions to obtain and run the tools on Linux.
+
+## Get Tools
+It can be installed on Ubuntu Linux using the following command.
+
+    sudo apt install git make openjdk-8-jdk swig python
+
+## Get IoTivity-Lite
+Checkout IoTivity-lite git project run the following command to get a anonymous copy of
+iotivity-lite.  Checkout the SWIG branch.
+
+    git clone https://github.com/PoliotLab/iotivity-lite.git
+
+Move to project folder and switch to branch to 'poliot' instead of 'swig'
+
+    cd iotivity-lite
+    git checkout -t origin/poliot
+
+Get submodule. You could get recursive submodule folders on $iotivity-lite/deps/
+
+    git submodule init
+    git submodule update
+
+## Android NDK
+Download Android NDK
+
+https://developer.android.com/ndk/downloads/index.html
+
+Unzip downloaded package.
+
+    cd <NDK>/build/tools
+
+To make arm 32bit architecture
+
+    ./make_standalone_toolchain.py --arch arm --api 28 --install-dir ~/android-arm32-28
+
+To make arm 64bit architecture
+    
+    ./make_standalone_toolchain.py --arch arm64 --api 28 --install-dir ~/android-arm64-28
+
+valid values for `--arch`
+ - arm
+ - arm64
+ - x86
+ - x86_64
+
+The `make_standalone_toolchain` script only supports api level 16 and newer. We recommend using api level 23 or newer. <br>
+Note: running the `make_standalone_toolchain.py` script may print a WARNING stating it is no longer necessary. <br>
+This is expected.  At this time the make files expect the stand alone tool chain.
+
+For further setup see:
+https://developer.android.com/ndk/guides/standalone_toolchain.html
+
+
+Building IoTivity-Lite libraries
+=================================================
+To build for Android cd to
+
+    cd <iotivity-lite>/android/port
+
+The Makefile uses then the Android NDK that was installed above.
+
+for 32bit architecture
+
+    make NDK_HOME=~/android-arm32-28 ARCH=32 IPV4=1 DEBUG=1 SECURE=0
+
+for 64bit architecture
+
+    make NDK_HOME=~/android-arm64-28 ARCH=64 IPV4=1 DEBUG=1 SECURE=0
+
+or just simply make it for 64bit architecture 
+
+    make
+
+The Make file will build and copy the library files (*.so and *.jar) into the
+provided samples.
+
+then you can find library files in <br> 
+`<iotivity-lite-root>/swig/iotivity-lite-java/libs`
+
+<br><br><br><br><br>
+
+![iotivity](./iotivity.png)
+
 IoTivity-Lite Android port
 -------------------------------------------------
 

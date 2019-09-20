@@ -60,16 +60,21 @@
 
 # Location of the installation directory and the API level.
 export OS=android
-export ANDROID_API := 23
+export ANDROID_API := 28
 ifeq (${NDK_HOME},)
-export ANDROID_BASE := "${HOME}/android-arm-${ANDROID_API}"
+export ANDROID_BASE := "${HOME}/android-arm64-${ANDROID_API}"
 else
 export ANDROID_BASE := "${NDK_HOME}"
 endif
 # Compiler prefix
 ANDROID_HOST := arm-linux-androideabi-
 
-BIN_BASE := ${ANDROID_BASE}/bin/${ANDROID_HOST}
+ifeq (${ARCH},32)
+BIN_BASE := ${ANDROID_BASE}/bin/arm-linux-androideabi-
+else
+BIN_BASE := ${ANDROID_BASE}/bin/aarch64-linux-android-
+endif
+
 ifeq ($(origin CC),default)
 export CC := ${BIN_BASE}gcc
 endif
@@ -80,7 +85,8 @@ RM ?= rm
 MKDIR ?= mkdir
 
 DYNAMIC ?= 1
-export SECURE ?= 1
+export DEBUG ?= 1
+export SECURE ?= 0
 export PKI ?= 1
 IPV4 ?= 1
 export TCP ?= 1
